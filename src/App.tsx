@@ -6,11 +6,27 @@ import { useState } from "react";
 
 import "./App.css";
 
+type Email = {
+  id: number;
+  read: boolean;
+  sender: string;
+  title: string;
+  starred: boolean;
+} 
+
 function App() {
   // Use initialEmails for state
-  console.log(initialEmails);
+  // console.log(initialEmails);
   const [emails, setEmails] = useState(initialEmails);
 
+  // function toggleChecked(id: number) {
+  //     emails.map((email:Email) => {
+  //       const newEmail = structuredClone(emails);
+  //       const checkedEmail = newEmail.find((email) => email.id === id);
+  //         checkedEmail.read = !checkedEmail.read;
+  //         setEmails(checkedEmail);
+  //     });
+  // }
   return (
     <div className="app">
       <Header />
@@ -42,20 +58,37 @@ function App() {
           </li>
         </ul>
       </nav>
+
+
       <main className="emails">
         {/* Render a list of emails here */}
         <ul className="email-list">
-          {initialEmails.map((email) => (
-            <li className="email">
-              <div className="read"><input onClick={
-                () => {
-                  // change the class of the email to "read"
-                  // if it is already "read", change it to "unread"
-                  email.read ? ;
-                }
-                } type="checkbox"/></div>
-              <div className="sender">{email.sender}
+          {initialEmails.map((email:Email) => (
+            <li className= {email.read ? "email read" : "email"}>
+              <div className="read">
+                <input
+                  onChange={() => {
+                  // toggleChecked(email.id);
+                  const newEmail = structuredClone(emails);
+                  console.log(newEmail);
+                  const checkedEmail = newEmail.find((email:Email) => email.id === email.id);
+                  checkedEmail.read = !checkedEmail.read;
+                  setEmails(checkedEmail);
+                  }}
+                  type="checkbox"
+                />
               </div>
+
+              <div className="star">
+                <input
+                  className="star-checkbox"
+                  type="checkbox"
+                  title="bookmark page"
+                />
+              </div>
+
+              <div className="sender">{email.sender}</div>
+              
               <div className="title">{email.title}</div>
             </li>
           ))}
